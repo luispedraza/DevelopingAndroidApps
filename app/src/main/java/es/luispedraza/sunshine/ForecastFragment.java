@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -27,6 +30,13 @@ public class ForecastFragment extends Fragment {
     private ArrayAdapter<String> mForecastAdapter;
 
     public ForecastFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Report this fragment has menu options
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -117,5 +127,19 @@ public class ForecastFragment extends Fragment {
             }
             return forecastJsonStr;
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.forecast_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();  // the id of the menu item
+        if (id == R.id.action_refresh) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
