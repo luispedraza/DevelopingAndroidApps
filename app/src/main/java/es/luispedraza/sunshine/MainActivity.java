@@ -1,20 +1,9 @@
 package es.luispedraza.sunshine;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class MainActivity extends Activity {
@@ -25,7 +14,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new ForecastFragment())
                     .commit();
         }
     }
@@ -48,50 +37,5 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        private ArrayAdapter<String> mForecastAdapter;
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-
-
-            String[] forecastArray = {
-                    "Today - Sunny - 34/19",
-                    "Tomorrow - Foggy - 29/18",
-                    "Today - Sunny - 34/19",
-                    "Tomorrow - Foggy - 29/18",
-                    "Today - Sunny - 34/19",
-                    "Tomorrow - Foggy - 29/18",
-                    "Today - Sunny - 34/19",
-                    "Tomorrow - Foggy - 29/18",
-                    "Today - Sunny - 34/19",
-                    "Tomorrow - Foggy - 29/18"
-            };
-            ArrayList<String> weekForecast = new ArrayList<String>(
-                    Arrays.asList(forecastArray)
-            );
-
-            mForecastAdapter = new ArrayAdapter<String>(
-                    getActivity(),
-                    R.layout.list_item_forecast,
-                    R.id.list_item_forecast_textview,
-                    weekForecast);
-            ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-            listView.setAdapter(mForecastAdapter);
-
-            return rootView;
-        }
     }
 }
