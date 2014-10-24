@@ -289,4 +289,10 @@ public class ForecastFragment extends Fragment {
         // obtain new data from server:
         new FetchWeatherTask().execute(postalCode);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
 }
