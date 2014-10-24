@@ -1,9 +1,12 @@
 package es.luispedraza.sunshine;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,7 +84,10 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String info = (String) adapterView.getItemAtPosition(i);
-                Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(Intent.EXTRA_TEXT, info);
+                startActivity(intent);
             }
         });
 
@@ -270,8 +275,12 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();  // the id of the menu item
         if (id == R.id.action_refresh) {
+            // obtain current preferences for postal code
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+            String postalCode = sharedPref.getString(getString(R.string.pref_location_key),
+                    getString(R.string.pref_location_default));
             // obtain new data from server:
-            new FetchWeatherTask().execute("28002");
+            new FetchWeatherTask().execute(postalCode);
             return true;
         }
         return super.onOptionsItemSelected(item);
