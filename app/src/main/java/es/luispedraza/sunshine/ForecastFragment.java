@@ -275,14 +275,18 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();  // the id of the menu item
         if (id == R.id.action_refresh) {
-            // obtain current preferences for postal code
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-            String postalCode = sharedPref.getString(getString(R.string.pref_location_key),
-                    getString(R.string.pref_location_default));
-            // obtain new data from server:
-            new FetchWeatherTask().execute(postalCode);
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        // obtain current preferences for postal code
+        String postalCode = sharedPref.getString(getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default));
+        // obtain new data from server:
+        new FetchWeatherTask().execute(postalCode);
     }
 }
